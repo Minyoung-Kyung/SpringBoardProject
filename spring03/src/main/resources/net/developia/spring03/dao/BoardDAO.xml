@@ -4,28 +4,15 @@
 <mapper namespace="net.developia.spring03.dao.BoardDAO">
 
 	<insert id="insertBoard" parameterType="BoardDTO">
-	INSERT INTO board(bno, title, name, password, content) 
-	VALUES(board_no_seq.nextval, #{title}, #{name}, #{password}, #{content})
+		<selectKey resultType="long" keyProperty="bno" order="BEFORE">
+	        SELECT MAX(bno)+1 FROM board        
+		</selectKey> 
+		INSERT INTO board(bno, title, name, password, content) 
+		VALUES(#{bno}, #{title}, #{name}, #{password}, #{content})
 	</insert>
 	
 	<select id="getBoardList" parameterType="long" resultType="BoardDTO">
-	SELECT
-	    bno,
-	    title,
-	    name,
-	    regdate,
-	    readcount
-	FROM
-	    board
-	ORDER BY bno DESC
-	OFFSET 10 ROWS FETCH FIRST 10 ROWS ONLY
-	</select>
-	
-	<select id="getBoardListPage" parameterType="long" resultType="BoardDTO">
-	SELECT B.*
-	FROM (SELECT rownum as rnum, A.*
-	FROM 
-		(SELECT
+		SELECT
 		    bno,
 		    title,
 		    name,
@@ -33,44 +20,60 @@
 		    readcount
 		FROM
 		    board
-		ORDER BY bno DESC) A) B
-	WHERE rnum between #{startNum} and #{endNum}	
+		ORDER BY bno DESC
+		OFFSET 10 ROWS FETCH FIRST 10 ROWS ONLY
+	</select>
+	
+	<select id="getBoardListPage" parameterType="long" resultType="BoardDTO">
+		SELECT B.*
+		FROM (SELECT rownum AS rnum, A.*
+		FROM 
+			(SELECT
+			    bno,
+			    title,
+			    name,
+			    regdate,
+			    readcount
+			FROM
+			    board
+			ORDER BY bno DESC) A) B
+		WHERE rnum between #{startNum} AND #{endNum}	
 	</select>
 	
 	<select id="getDetail" parameterType="long" resultType="BoardDTO">
-	SELECT
-	    bno,
-	    title,
-	    name,
-	    content,
-	    regdate,
-	    readcount
-	FROM
-	    board
-	WHERE
-		bno = #{bno}
+		SELECT
+		    bno,
+		    title,
+		    name,
+		    content,
+		    regdate,
+		    readcount
+		FROM
+		    board
+		WHERE
+			bno = #{bno}
 	</select>
 	
 	<update id="updateReadCount" parameterType="long">
-	UPDATE board SET readcount=readcount+1 WHERE bno=#{bno}
+		UPDATE board SET readcount=readcount+1 WHERE bno=#{bno}
 	</update>
 	
 	<delete id="deleteBoard" parameterType="BoardDTO">
-	DELETE board
-	WHERE bno=#{bno} AND password=#{password}
+		DELETE board
+		WHERE bno=#{bno} AND password=#{password}
 	</delete>
 	
 	<update id="updateBoard" parameterType="BoardDTO">
-	UPDATE board SET
-	       title=#{title},
-	       name =#{name},
-	       content=#{content}
-	WHERE bno=#{bno} AND password=#{password}
+		UPDATE board SET
+		       title=#{title},
+		       name =#{name},
+		       content=#{content}
+		WHERE bno=#{bno} AND password=#{password}
 	</update>
 	
 	<select id="getBoardCount" resultType="long">
-	SELECT COUNT(*) as cnt
-	FROM board
+		SELECT COUNT(*) AS cnt
+		FROM board
 	</select>
 	
 </mapper>

@@ -5,37 +5,38 @@
 
 	<!-- 댓글 작성 -->
 	<insert id="replyInsert">
-	insert into tbl_reply(rno, bno, reply, replyer)
-	values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+		INSERT INTO tbl_reply(rno, bno, reply, replyer)
+		VALUES(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
 	</insert>
 	
 	<!-- 댓글 조회 -->
 	<select id="replyRead" resultType="net.developia.spring03.dto.ReplyDTO">
-	select * from tbl_reply where rno = #{rno}
+		SELECT * FROM tbl_reply WHERE rno = #{rno}
 	</select>
 	
 	<!-- 댓글 삭제 -->
 	<delete id="replyDelete">
-	delete from tbl_reply where rno = #{rno}
+		DELETE FROM tbl_reply WHERE rno = #{rno}
 	</delete>
 	
 	<!-- 댓글 수정 -->
 	<update id="replyUpdate">
-	update tbl_reply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+		UPDATE tbl_reply SET reply = #{reply}, updatedate = sysdate WHERE rno = #{rno}
 	</update>
 	
 	<!-- #{bno}가 BoarDAO에 있는 @Param("bno")와 매칭 -->
 	<select id="getReplyList" resultType="net.developia.spring03.dto.ReplyDTO">
-	select rno, bno, reply, replyer, replyDate, updatedate
-	from tbl_reply
-	where bno = #{bno}
-	order by rno asc
+		SELECT rno, bno, reply, replyer, replyDate, updatedate
+		FROM tbl_reply
+		WHERE bno = #{bno}
+		ORDER BY rno ASC
 	</select>
 	
+	<!-- 댓글 개수 -->
 	<select id="getReplyCount" resultType="long">
-	SELECT COUNT(*) as cnt
-	FROM tbl_reply
-	where bno = #{bno}
+		SELECT COUNT(*) AS cnt
+		FROM tbl_reply
+		WHERE bno = #{bno}
 	</select>
 	
 </mapper>

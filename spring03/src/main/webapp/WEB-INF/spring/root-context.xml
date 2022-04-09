@@ -42,5 +42,11 @@
 		class="org.mybatis.spring.mapper.MapperFactoryBean"
 		p:sqlSessionTemplate-ref="sqlSessionTemplate"
 		p:mapperInterface="net.developia.spring03.dao.ReplyDAO"></bean>
+		
+	<!-- boardAttachDAO -->
+	<bean id="boardAttachDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionTemplate-ref="sqlSessionTemplate"
+		p:mapperInterface="net.developia.spring03.dao.BoardAttachDAO"></bean>
 	
 </beans>

@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
-<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <style>
 body {
@@ -38,11 +38,44 @@ table.type10 {
   padding: 10px;
   vertical-align: top;
 }
+.uploadResult{
+	width: 100%;
+	background-color: #f8f9fa;
+}
+.uploadResult ul{
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+.uploadResult ul li{
+	list-style: none;
+	padding: 10px;
+	align-content: center;
+	text-align: center;
+}
+.uploadResult ul li img{
+	width: 100px;
+}
+.uploadResult ul li span{
+	color: black;
+}
+bigPictureWrapper{
+	position: absolute;
+	display: none;
+	top: 0%;
+	width: 543px;
+	height: 543px;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255,255,255,0.5);
+}
 </style>
 <script type="text/javascript" src="${contextPath}/resources/js/reply.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		var bnoValue = '<c:out value="${bno}"/>';
+		var pg = '<c:out value="${pg}"/>';
 		var replyURL = $(".chat");
 		
 		showList(1);
@@ -101,12 +134,81 @@ table.type10 {
 				alert('ERROR...');
 			});
 		});
+		
+		(function(){
+			$.getJSON("${contextPath}/board/${bno}/${pg}/getAttachList", {bno: bnoValue}, function(arr){
+				console.log(arr);
+				
+				var str = "";
+				
+				$(arr).each(function(i, attach){
+					
+					if(attach.fileType){
+						var fileCallPath = encodeURIComponent(attach.uploadPath+ "/s_"+attach.uuid+"_"+ attach.fileName);
+						
+						var fileLink = fileCallPath.replace(new RegExp(/\\/),"/");
+						
+						str += "<li data-path='"+attach.uploadPath+"'";
+						str += " data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"'data-type='"+attach.fileType+"'"
+						str += "><div>";
+						str += "<img src='${contextPath}/board/1/display?fileName="+fileCallPath+"'>";
+						str += "</div>";
+						str += "</li>";
+					}else{
+						var fileCallPath = encodeURIComponent(attach.uploadPath+"/"+attach.uuid+"_"+attach.fileName);
+						
+						var fileLink = fileCallPath.replace(new RegExp(/\\/),"/");
+						
+						str += "<li data-path='"+attach.uploadPath+"'";
+						str += " data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"'data-type='"+attach.fileType+"'"
+						str += "><div>";
+						str += "<span>"+attach.fileName+"</span>";
+						str += "<img src='${contextPath}/resources/img/attach.png'></a>";
+						str += "</div>";
+						str += "</li>";
+					}
+					
+				});
+				
+				$(".uploadResult ul").html(str);
+			});
+		})();
+		
+		$(".uploadResult").on("click", "li", function(e){
+			console.log("view image");
+			
+			var liObj = $(this);
+			
+			var path = encodeURIComponent(liObj.data("path")+"/"+liObj.data("uuid")+"_"+liObj.data("filename"));
+			
+			if(liObj.data("type")){
+				showImage(path.replace(new RegExp(/\\/),"/"));
+			}else{
+				self.location = "${contextPath}/board/1/download?fileName="+path;
+			}
+		});
+		
+		function showImage(fileCallPath) {
+			alert(fileCallPath);
+			
+			$(".bigPictureWrapper").css("display", "flex").show();
+			
+			$(".bigPictureWrapper").html("<img src='${contextPath}/board/1/display?fileName="+fileCallPath+"'>")
+									.animate({width:'543px', height:'543px'}, 1000);
+		}
+		
+		$(".bigPictureWrapper").on("click", function(e){
+			$(".bigPictureWrapper").animate({width:'0px', height: '0px'}, 1000);
+			setTimeout(()=> {
+				$(this).hide();
+			}, 1000);
+		})
 	});	
 </script>
 </head>
 <body>
 	<table border="1" class="type10">
-		<h1 style="text-align: center;">게시물 상세보기</h1>
+	<h1 style="text-align: center;">게시물 상세보기</h1>
 	<tr>
 		<td class="tdStyle">번호</td>
 		<td class="lastTdStyle">${vn}</td>
@@ -151,6 +253,16 @@ table.type10 {
 		<a href="delete">삭제</a>
 	
 	<hr />
+	
+	<div class = 'bigPictureWrapper'>
+		<ul>
+		</ul>
+	</div>
+	
+	<div class = 'uploadResult'>
+		<ul>
+		</ul>
+	</div>
 	
 	<div class="row">
 		<div class="col-lg-12">

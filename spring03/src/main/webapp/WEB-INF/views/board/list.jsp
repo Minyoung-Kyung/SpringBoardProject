@@ -63,15 +63,15 @@ table.type10 td {
 		<c:forEach items="${list}" var="dto" varStatus="vs">
 		<jsp:useBean id="now" class="java.util.Date" />
 		<fmt:formatDate value="${now}" type="date" pattern="yyyyMMdd" var="nowDate"/>
-		<fmt:formatDate value="${dto.regdate}" type="date" pattern="yyyyMMdd" var="postDate" />
+		<fmt:formatDate value="${dto.regdate}" type="date" pattern="yyyyMMdd" var="pastDate" />
 		<tr>
 			<td>${recordCount - vs.index - ((pg-1)*pageSize)}</td>
 			<td><a href="${dto.bno}/?vn=${recordCount - vs.index - ((pg-1)*pageSize)}">${dto.title}</a></td>
 			<td>${dto.name}</td>
-			<c:if test="${nowDate - postDate == 0}">
+			<c:if test="${nowDate - pastDate == 0}">
 				<td><fmt:formatDate value="${dto.regdate}" pattern="HH:mm:ss" type="time"/></td>
 			</c:if>
-			<c:if test="${nowDate - postDate != 0}">
+			<c:if test="${nowDate - pastDate != 0}">
 				<td><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd" type="date"/></td>
 			</c:if>
 			<td>${dto.readcount}</td>

@@ -2,15 +2,24 @@ package net.developia.spring03.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import lombok.Setter;
+import net.developia.spring03.dao.BoardAttachDAO;
 import net.developia.spring03.dao.BoardDAO;
+import net.developia.spring03.dto.BoardAttachDTO;
 import net.developia.spring03.dto.BoardDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	
+	@Setter(onMethod_ = @Autowired)
 	private BoardDAO boardDAO;
+	
+	@Setter(onMethod_ = @Autowired)
+	private BoardAttachDAO attachDAO;
 	
 	@Value("${pageSize}")
 	private int pageSize;
@@ -24,7 +33,16 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void insertBoard(BoardDTO boardDTO) throws Exception {
-		boardDAO.insertBoard(boardDTO);		
+		boardDAO.insertBoard(boardDTO);	
+		
+		if (boardDTO.getAttachList() == null || boardDTO.getAttachList().size() <= 0) {
+			return;
+		}
+		
+		boardDTO.getAttachList().forEach(attach -> {
+			attach.setBno(boardDTO.getBno());
+			attachDAO.attachInsert(attach);
+		});
 	}
 
 	@Override
@@ -73,6 +91,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public long getBoardCount() throws Exception {
 		return boardDAO.getBoardCount();
+	}
+
+	@Override
+	public List<BoardAttachDTO> getAttachList(Long bno) throws Exception {
+		return attachDAO.getAttachList(bno);
 	}
 
 }

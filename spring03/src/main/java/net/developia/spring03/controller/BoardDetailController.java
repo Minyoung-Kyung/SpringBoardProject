@@ -1,5 +1,10 @@
 package net.developia.spring03.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.log4j.Log4j;
+import net.developia.spring03.dto.BoardAttachDTO;
 import net.developia.spring03.dto.BoardDTO;
 import net.developia.spring03.service.BoardService;
 
@@ -45,6 +52,13 @@ public class BoardDetailController {
 			model.addAttribute("url", "../");
 			return "result";
 		} 
+	}
+	
+	@GetMapping(value="getAttachList", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachDTO>> getAttachList(Long bno) throws Exception {
+		log.info("getAttachList " + bno);
+		return new ResponseEntity<>(boardService.getAttachList(bno), HttpStatus.OK);
 	}
 	
 	@GetMapping("delete")

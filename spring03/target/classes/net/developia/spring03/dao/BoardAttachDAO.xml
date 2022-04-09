@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.developia.spring03.dao.BoardAttachDAO">
+
+	<!-- 첨부파일 등록 -->
+	<insert id="attachInsert">
+		INSERT INTO tbl_attach (uuid, uploadpath, filename, filetype, bno)
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno})
+	</insert>
+	
+	<!-- 첨부파일 삭제 -->
+	<delete id="attachDelete">
+		DELETE FROM tbl_attach WHERE uuid=#{uuid}
+	</delete>
+	
+	<!-- 첨부파일 조회 -->
+	<select id="getAttachList" resultType="net.developia.spring03.dto.BoardAttachDTO">
+		SELECT * FROM tbl_attach WHERE bno=#{bno}
+	</select>
+	
+</mapper>

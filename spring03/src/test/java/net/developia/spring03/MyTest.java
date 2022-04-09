@@ -45,7 +45,7 @@ public class MyTest {
 	@Test
 	public void testBoardDTO() {
 		BoardDTO boardDTO = new BoardDTO();
-		boardDTO.setBno(1);
+		boardDTO.setBno((long) 1);
 		boardDTO.setTitle("제목");
 		boardDTO.setName("이름");
 		boardDTO.setPassword("1111");
@@ -63,7 +63,7 @@ public class MyTest {
 			e.printStackTrace();
 		}
 		
-		boardDTO.setBno(1);
+		boardDTO.setBno((long) 1);
 		boardDTO.setTitle("제목");
 		boardDTO.setName("이름");
 		boardDTO.setPassword("1111");
