@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <definition name="board.*" template="/WEB-INF/views/commons/layout.jsp">
+    <put-attribute name="title" value="스프링 게시판" />
+    <put-attribute name="header" value="/WEB-INF/views/commons/header.jsp" />
+    <put-attribute name="menu" value="/WEB-INF/views/commons/menu.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/board/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/commons/footer.jsp" />
+  </definition>
+</tiles-definitions>

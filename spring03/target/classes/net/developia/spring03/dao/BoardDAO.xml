@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.developia.spring03.dao.BoardDAO">
+
+	<insert id="insertBoard" parameterType="BoardDTO">
+	INSERT INTO board(bno, title, name, password, content) 
+	VALUES(board_no_seq.nextval, #{title}, #{name}, #{password}, #{content})
+	</insert>
+	
+	<select id="getBoardList" parameterType="long" resultType="BoardDTO">
+	SELECT
+	    bno,
+	    title,
+	    name,
+	    regdate,
+	    readcount
+	FROM
+	    board
+	ORDER BY bno DESC
+	OFFSET 10 ROWS FETCH FIRST 10 ROWS ONLY
+	</select>
+	
+	<select id="getBoardListPage" parameterType="long" resultType="BoardDTO">
+	SELECT B.*
+	FROM (SELECT rownum as rnum, A.*
+	FROM 
+		(SELECT
+		    bno,
+		    title,
+		    name,
+		    regdate,
+		    readcount
+		FROM
+		    board
+		ORDER BY bno DESC) A) B
+	WHERE rnum between #{startNum} and #{endNum}	
+	</select>
+	
+	<select id="getDetail" parameterType="long" resultType="BoardDTO">
+	SELECT
+	    bno,
+	    title,
+	    name,
+	    content,
+	    regdate,
+	    readcount
+	FROM
+	    board
+	WHERE
+		bno = #{bno}
+	</select>
+	
+	<update id="updateReadCount" parameterType="long">
+	UPDATE board SET readcount=readcount+1 WHERE bno=#{bno}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="BoardDTO">
+	DELETE board
+	WHERE bno=#{bno} AND password=#{password}
+	</delete>
+	
+	<update id="updateBoard" parameterType="BoardDTO">
+	UPDATE board SET
+	       title=#{title},
+	       name =#{name},
+	       content=#{content}
+	WHERE bno=#{bno} AND password=#{password}
+	</update>
+	
+	<select id="getBoardCount" resultType="long">
+	SELECT COUNT(*) as cnt
+	FROM board
+	</select>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.developia.spring03.dao.ReplyDAO">
+
+	<!-- 댓글 작성 -->
+	<insert id="replyInsert">
+	insert into tbl_reply(rno, bno, reply, replyer)
+	values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+	</insert>
+	
+	<!-- 댓글 조회 -->
+	<select id="replyRead" resultType="net.developia.spring03.dto.ReplyDTO">
+	select * from tbl_reply where rno = #{rno}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="replyDelete">
+	delete from tbl_reply where rno = #{rno}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="replyUpdate">
+	update tbl_reply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+	</update>
+	
+	<!-- #{bno}가 BoarDAO에 있는 @Param("bno")와 매칭 -->
+	<select id="getReplyList" resultType="net.developia.spring03.dto.ReplyDTO">
+	select rno, bno, reply, replyer, replyDate, updatedate
+	from tbl_reply
+	where bno = #{bno}
+	order by rno asc
+	</select>
+	
+	<select id="getReplyCount" resultType="long">
+	SELECT COUNT(*) as cnt
+	FROM tbl_reply
+	where bno = #{bno}
+	</select>
+	
+</mapper>

@@ -1,0 +1,121 @@
+// detail.jsp에서 reply.js와 연결 후 테스트할 때 작성했던 코드
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(replyService)
+		var operForm = $("#operForm");
+		$("button[data-oper='modify']").on("click", function(e) {
+			operForm.attr("action", "/board/modify").submit();
+		});
+	})
+	
+	var bnoValue = '<c:out value="${bno}"/>';
+	
+	replyService.add(
+		{reply: "JS Test", replyer: "tester", bno: bnoValue}
+		,
+		function(result) {
+			alert("RESULTL: " + result);s
+		}
+	);
+	
+	replyService.getList({bno: bnoValue}, function(list) {
+		for(var i = 0, len = list.length||0; i < len; i++) {
+			console.log(list[i]);
+		}
+	});
+	
+	replyService.remove(23, function(count) {
+		console.log(count);
+		
+		if(count === "success") {
+			alert("댓글이 삭제되었습니다.");
+		}
+	}, function(err) {
+		alert('ERROR...');
+	});
+	
+	replyService.update({
+		rno: 22,
+		bno: bnoValue,
+		reply: "Modified Reply..."
+	}, function(result) {
+		alert("수정 완료...");
+	}
+	});
+	
+	replyService.get(10, function(data){
+		console.log(data);
+	});
+	
+</script>
+
+// 댓글창을 모달로 작성할 경우를 대비해 작성했던 코드
+var modal = $(".modal");
+var modalInputReply = modal.find("input[name='reply']");
+var modalInputReplyer = modal.find("input[name='replyer']");
+var modalInputReplyDate = modal.find("input[name='replyDate']");
+
+var modalModBtn = $("#modalModBtn");
+var modalRemoveBtn = $("#modalRemoveBtn");
+var modalRegisterBtn = $("modalRegisterBtn");
+
+$("#addReplyBtn").on("click", function(e) {
+	modal.find("input").val("");
+	modalInputReplyDate.closest("div").hide();
+	modal.find("button[id != 'modalCloseBtn']").hide();
+	
+	modalRegisterBtn.show();
+	
+	$(".modal").modal("show");
+});
+
+modalRegisterBtn.on("click", function(e) {
+	var reply = {
+			reply: modalInputReply.val(),
+			replyer: modalInputReplyer.val(),
+			bno: bnoValue
+		};
+	replyService.add(reply, function(result){
+		alert(result);
+		modal.find("input").val("");
+		modal.modal("hide");
+	});
+});
+
+<div class="panel-heading">
+	<i class="fa fa-comments fa-fw"></i> 댓글
+	<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>새 댓글 달기</button>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialoh" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="moal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">댓글창</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>댓글</label>
+					<input class-"form-control" name='reply' value='New Reply!!!'>
+				</div>
+				<div class="form-group">
+					<label>댓글 작성자</label>
+					<input class-"form-control" name='replyer' value='replter'>
+				</div>
+				<div class="form-group">
+					<label>댓글 작성일</label>
+					<input class-"form-control" name='replyDate' value=''>
+				</div>
+				
+				<div class="modal-footer">
+					<button id='modalModBtn' type="button" class="btn btn-warning">수정하기</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">삭제하기</button>
+					<button id='modalCloseBtn' type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button id='modalClassBtn' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
