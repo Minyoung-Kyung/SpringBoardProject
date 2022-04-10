@@ -281,7 +281,6 @@ public class BoardController {
 				file = new File(largeFileName);
 				file.delete();
 			}
-			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

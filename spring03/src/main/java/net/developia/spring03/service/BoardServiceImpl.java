@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
 import net.developia.spring03.dao.BoardAttachDAO;
@@ -66,18 +67,28 @@ public class BoardServiceImpl implements BoardService {
 		return boardDTO;
 	}
 
+	@Transactional
 	@Override
-	public void deleteBoard(BoardDTO boardDTO) throws Exception {
-		if(boardDAO.deleteBoard(boardDTO) == 0) { // 삭제가 잘 되는 경우 1 
-			throw new RuntimeException("해당하는 게시물이 없거나 비밀번호가 틀렸습니다.");
-		}
+	public int deleteBoard(BoardDTO boardDTO) throws Exception {
+		attachDAO.deleteAll(boardDTO.getBno());
+		return boardDAO.deleteBoard(boardDTO);
 	}
 
+	@Transactional
 	@Override
-	public void updateBoard(BoardDTO boardDTO) throws Exception {
-		if(boardDAO.updateBoard(boardDTO) == 0) {
-			throw new RuntimeException("해당하는 게시물이 없거나 비밀번호가 틀립니다.");
+	public int updateBoard(BoardDTO boardDTO) throws Exception {
+		attachDAO.deleteAll(boardDTO.getBno()); // 해당 게시물의 파일 모두 삭제
+		
+		int modifyResult = boardDAO.updateBoard(boardDTO); // 입력한 비밀번호가 일치하면 성공
+		
+		if (modifyResult == 1 && boardDTO.getAttachList() != null && boardDTO.getAttachList().size() > 0) {
+			boardDTO.getAttachList().forEach(attach -> {
+				attach.setBno(boardDTO.getBno());
+				attachDAO.attachInsert(attach);
+			});
 		}
+		
+		return modifyResult;
 	}
 
 	@Override
@@ -95,7 +106,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardAttachDTO> getAttachList(Long bno) throws Exception {
-		return attachDAO.getAttachList(bno);
+		return attachDAO.attachListByBno(bno);
 	}
 
 }

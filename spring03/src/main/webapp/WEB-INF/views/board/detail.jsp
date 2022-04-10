@@ -90,7 +90,7 @@ bigPictureWrapper{
 				}
 				
 				for (var i = 0, len = list.length || 0; i < len; i++) {
-					str += "<li class='left' data-rno='" + list[i].rno + "'>";
+					str += "<li class='left' id='reply' data-rno='" + list[i].rno + "'>";
 					str += "  <div><div class='header'><strong class='primary-font'>" +
 					list[i].replyer + "</strong><button id='deleteReplyBtn' style='float: right;'>삭제</button>";
 					str += "    <small class='pull-right text-muted'>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
@@ -120,7 +120,7 @@ bigPictureWrapper{
 		});
 		
 		$(document).on("click", "#deleteReplyBtn", function() {
-			var rno = $("li").data("rno");
+			var rno = $("li[id='reply']").data("rno");
 			
 			replyService.remove(rno, function(count){
 				console.log(count);
@@ -136,7 +136,7 @@ bigPictureWrapper{
 		});
 		
 		(function(){
-			$.getJSON("${contextPath}/board/${bno}/${pg}/getAttachList", {bno: bnoValue}, function(arr){
+			$.getJSON("${contextPath}/board/${pg}/${bno}/getAttachList", {bno: bnoValue}, function(arr){
 				console.log(arr);
 				
 				var str = "";
@@ -189,8 +189,6 @@ bigPictureWrapper{
 		});
 		
 		function showImage(fileCallPath) {
-			alert(fileCallPath);
-			
 			$(".bigPictureWrapper").css("display", "flex").show();
 			
 			$(".bigPictureWrapper").html("<img src='${contextPath}/board/1/display?fileName="+fileCallPath+"'>")

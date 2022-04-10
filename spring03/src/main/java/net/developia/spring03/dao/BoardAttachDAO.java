@@ -11,5 +11,7 @@ public interface BoardAttachDAO {
 	
 	public void attachDelete(String uuid);
 
-	public List<BoardAttachDTO> getAttachList(@Param("bno") Long bno);
+	public List<BoardAttachDTO> attachListByBno(@Param("bno") Long bno);
+	
+	public void deleteAll(Long bno);
 }

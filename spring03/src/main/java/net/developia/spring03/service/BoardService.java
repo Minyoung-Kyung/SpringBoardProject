@@ -12,9 +12,9 @@ public interface BoardService {
 	
 	BoardDTO getDetail(long bno) throws Exception;
 
-	void deleteBoard(BoardDTO boardDTO) throws Exception;
+	int deleteBoard(BoardDTO boardDTO) throws Exception;
 
-	void updateBoard(BoardDTO boardDTO) throws Exception;
+	int updateBoard(BoardDTO boardDTO) throws Exception;
 
 	List<BoardDTO> getBoardListPage(long pg) throws Exception;
 

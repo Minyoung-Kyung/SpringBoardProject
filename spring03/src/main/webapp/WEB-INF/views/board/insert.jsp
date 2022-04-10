@@ -41,7 +41,6 @@ $(document).ready(function(e){
 
 	$(".uploadResult").on("click", "button", function(e) {
 		console.log("delete file");
-		// 현재 아래 두개 null
 		var targetFile = $(this).data("file");
 		var type = $(this).data("type");
 		
@@ -117,7 +116,7 @@ $(document).ready(function(e){
 				str += "><div>";
 				str += "<span>"+obj.fileName+"</span>";
 				str += "<button type='button' data-file=\'"+fileCallPath+"\'data-type='file'>X</button><br>";
-				str += "<img src='${app}/board/1/display?fileName="+fileCallPath+"'>";
+				str += "<img src='${app}/board/${pg}/display?fileName="+fileCallPath+"'>";
 				str += "</div>";
 				str += "</li>";
 			}else{
@@ -172,32 +171,32 @@ $(document).ready(function(e){
 <body>
 	<form method="post" role="form">
 		<table>
-		<caption>게시물 쓰기</caption>
-		<tr>
-		   <th>제목</th>
-		   <td><input type="text" name="title" autofocus="autofocus" 
-		      required="required"/></td>
-		</tr>
-		<tr>
-		   <th>이름</th>
-		   <td><input type="text" name="name" required="required"/></td>
-		</tr>
-		<tr>
-		   <th>비밀번호</th>
-		   <td><input type="password" name="password" required="required" /></td>
-		</tr>
-		<tr>
-		   <th>내용</th>
-		   <td><textarea name="content" rows="5" cols="40" 
-		      required="required"></textarea></td>
-		</tr>
-		<tr>
-			<th></th>
-			<td><input type="file" name='uploadFile' multiple></td>
-		</tr>
-		<tr>
-		   <td colspan="2" align="center"><button type="submit">완료</button></td>
-		</tr>
+		<caption>게시물 작성</caption>
+			<tr>
+			   <th>제목</th>
+			   <td><input type="text" name="title" autofocus="autofocus" 
+			      required="required"/></td>
+			</tr>
+			<tr>
+			   <th>이름</th>
+			   <td><input type="text" name="name" required="required"/></td>
+			</tr>
+			<tr>
+			   <th>비밀번호</th>
+			   <td><input type="password" name="password" required="required" /></td>
+			</tr>
+			<tr>
+			   <th>내용</th>
+			   <td><textarea name="content" rows="5" cols="40" 
+			      required="required"></textarea></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><input type="file" name='uploadFile' multiple></td>
+			</tr>
+			<tr>
+			   <td colspan="2" align="center"><button type="submit">완료</button></td>
+			</tr>
 		</table>
 	</form>
 	

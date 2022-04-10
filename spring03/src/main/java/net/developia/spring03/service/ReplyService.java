@@ -17,4 +17,3 @@ public interface ReplyService {
 	
 	long getReplyCount(Long bno) throws Exception;
 }
-
