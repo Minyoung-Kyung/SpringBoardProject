@@ -171,7 +171,7 @@ $(document).ready(function(e){
 <body>
 	<form method="post" role="form">
 		<table>
-		<caption>게시물 작성</caption>
+		<h1 style="text-align: center;">게시물 작성</h1>
 			<tr>
 			   <th>제목</th>
 			   <td><input type="text" name="title" autofocus="autofocus" 
