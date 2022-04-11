@@ -140,7 +140,7 @@ $(document).ready(function(e){
 				str += "><div>";
 				str += "<span>"+obj.fileName+"</span>";
 				str += "<button type='button' data-file=\'"+fileCallPath+"\'data-type='file'>X</button><br>";
-				str += "<img src='${app}/board/${pg}/display?fileName="+fileCallPath+"'>";
+				str += "<img src='${app}/board/1/display?fileName="+fileCallPath+"'>";
 				str += "</div>";
 				str += "</li>";
 			}else{
