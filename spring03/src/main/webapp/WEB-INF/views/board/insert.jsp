@@ -39,7 +39,7 @@ table.type10 {
 }
 .uploadResult{
 	width: 100%;
-	background-color: gray;
+	background-color: #f8f9fa;
 }
 .uploadResult ul{
 	display: flex;
