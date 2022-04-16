@@ -24,7 +24,7 @@
 		UPDATE tbl_reply SET reply = #{reply}, updatedate = sysdate WHERE rno = #{rno}
 	</update>
 	
-	<!-- #{bno}가 BoarDAO에 있는 @Param("bno")와 매칭 -->
+	<!-- 댓글 목록 -->
 	<select id="getReplyList" resultType="net.developia.spring03.dto.ReplyDTO">
 		SELECT rno, bno, reply, replyer, replyDate, updatedate
 		FROM tbl_reply

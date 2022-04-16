@@ -22,4 +22,5 @@
 	<delete id="deleteAll">
 		DELETE tbl_attach WHERE bno=#{bno}
 	</delete>
+	
 </mapper>
