@@ -228,8 +228,8 @@ $(document).ready(function(e) {
 <body>
 	<c:set var="dto" value="${boardDTO}" />
 	<form method="post" role="form">
-		<table>
 		<h1 style="text-align: center;">게시물 수정</h1>
+		<table>
 			<tr>
 				<th>번호</th>
 				<td>${vn}<input type="hidden" name="no"  

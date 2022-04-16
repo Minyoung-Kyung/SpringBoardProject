@@ -13,8 +13,8 @@ body {
 </head>
 <body>
 	<form method="post">
-		<table>
 		<h1 style="text-align: center;">게시물 삭제</h1>
+		<table>
 		<tr>
 		   <th>번호</th>
 		   <td>${vn}<input type="hidden" name="bno" value='${bno}'/></td>

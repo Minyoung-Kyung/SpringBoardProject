@@ -42,6 +42,9 @@ table.type10 td {
   padding: 10px;
   vertical-align: top;
 }
+input {
+	margin: 10px 5px 0px 5px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -67,13 +70,24 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	<table border="1" class="type10">
 	<h1 style="text-align: center;">게시물 목록</h1>
-		<tr>
-			현재 페이지 : ${pg} / 전체 페이지 수 : ${pageCount}
-		</tr>
+	
+	<div style="text-align: center;">
+		<form id="searchForm" action="${contextPath}/board/1/" autocomplete="off">
+			<select id="searchType" name="type">
+				<option value="">전체보기</option>
+				<option value="title" <c:if test="${type eq 'title'}">selected</c:if>>제목</option>
+				<option value="content" <c:if test="${type eq 'content'}">selected</c:if>>내용</option>
+				<option value="name" <c:if test="${type eq 'name'}">selected</c:if>>작성자</option>
+			</select>
+			<input type="text" id="keyword" name="keyword" value="${keyword}"></input>
+			<button id="searchBtn" type="submit">검색</button>
+		</form>
+	</div>
+	
+	<table border="1" class="type10">
 		<thead>
-		<tr>
+		<tr style="text-align: center;">
 			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
@@ -98,8 +112,8 @@ $(document).ready(function() {
 				<td><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd" type="date"/></td>
 			</c:if>
 			<td>${dto.readcount}</td>
-		</c:forEach>
 		</tr>
+		</c:forEach>
 	
 		<td colspan="5" style="text-align: center;">
 			<c:if test="${startPage != 1}">
@@ -115,19 +129,9 @@ $(document).ready(function() {
 		</td>
 		</tbody>
 	</table><br/>
-	<a href="insert">글쓰기</a>
-	
-	<div class="w100" style="padding-right:10px">
-		<form id="searchForm" action="${contextPath}/board/1/" autocomplete="off">
-			<select id="searchType" name="type"> 
-				<option value="">전체보기</option>
-				<option value="title" <c:if test="${type eq 'title'}">selected</c:if>>제목</option>
-				<option value="content" <c:if test="${type eq 'content'}">selected</c:if>>내용</option>
-				<option value="name" <c:if test="${type eq 'name'}">selected</c:if>>작성자</option>
-			</select>
-			<input type="text" id="keyword" name="keyword" value="${keyword}"></input>
-			<button id="searchBtn" type="submit">검색</button>
-		</form>
+	<div style="text-align: right;">
+		<a href="insert" style="float: left">글쓰기</a>
+		현재 페이지 : ${pg} / 전체 페이지 수 : ${pageCount}
 	</div>
 </body>
 </html>

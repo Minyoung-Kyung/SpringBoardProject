@@ -70,6 +70,9 @@ bigPictureWrapper{
 	z-index: 100;
 	background: rgba(255,255,255,0.5);
 }
+input {
+	margin: 5px 5px 5px 5px;
+}
 </style>
 <script type="text/javascript" src="${contextPath}/resources/js/reply.js"></script>
 <script type="text/javascript">
@@ -93,7 +96,7 @@ bigPictureWrapper{
 					str += "<li class='left' id='reply' data-rno='" + list[i].rno + "'>";
 					str += "  <div><div class='header'><strong class='primary-font'>" +
 					list[i].replyer + "</strong><button id='deleteReplyBtn' style='float: right;'>삭제</button>";
-					str += "    <small class='pull-right text-muted'>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
+					str += "    <small>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
 					str += "    <p>" + list[i].reply;
 					str += "    </p> </div></li>";
 				}
@@ -102,18 +105,17 @@ bigPictureWrapper{
 		}
 		
 		$("#addReplyBtn").on("click", function(e) {
-			
 			var reply = {
-					reply : $("#reply").val(),
-					replyer : $("#replyer").val(),
-					bno : '<c:out value="${bno}"/>'
+				reply : $("input[id='reply']").val(),
+				replyer : $("input[id='replyer']").val(),
+				bno : '<c:out value="${bno}"/>'
 			};
 			
 			replyService.add(reply, function(result) {
 				alert("댓글이 입력되었습니다.");
 
-				$("#reply").val("");
-				$("#replyer").val("");
+				$("input[id='replyer']").val("");
+				$("input[id='reply']").val("");
 				
 				showList(1);
 			});
@@ -205,8 +207,8 @@ bigPictureWrapper{
 </script>
 </head>
 <body>
-	<table border="1" class="type10">
 	<h1 style="text-align: center;">게시물 상세보기</h1>
+	<table border="1" class="type10">
 	<tr>
 		<td class="tdStyle">번호</td>
 		<td class="lastTdStyle">${vn}</td>
@@ -231,7 +233,7 @@ bigPictureWrapper{
 		<td class="tdStyle">작성일</td>
 		<jsp:useBean id="now" class="java.util.Date" />
 		<fmt:formatDate value="${now}" type="date" pattern="yyyyMMdd" var="nowDate"/>
-		<fmt:formatDate value="${boardDTO.regdate}" type="date" pattern="yyyyMMdd" var="postDate" />
+		<fmt:formatDate value="${boardDTO.regdate}" type="date" pattern="yyyyMMdd" var="postDate"/>
 		<c:if test="${nowDate - postDate == 0}">
 			<td class="lastTdStyle"><fmt:formatDate value="${boardDTO.regdate}" pattern="HH:mm:ss" type="time"/></td>
 		</c:if>
@@ -245,10 +247,10 @@ bigPictureWrapper{
 		<td class="tdStyle">조회수</td>
 		<td class="lastTdStyle">${boardDTO.readcount}</td>
 	</tr>
-		</table><br/>
-		<a href="../">전체보기</a>
-		<a href="${vn}/update">수정</a>
-		<a href="${vn}/delete">삭제</a>
+	</table><br/>
+	<a href="../">전체보기</a>
+	<a href="${vn}/update">수정</a>
+	<a href="${vn}/delete">삭제</a>
 	
 	<hr />
 	
@@ -262,40 +264,36 @@ bigPictureWrapper{
 		</ul>
 	</div>
 	
-	<div class="row">
-		<div class="col-lg-12">
-			
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<i class="fa fa-comments fa-fw"></i> 댓글
-				</div>
-			</div>
-			
-			<div class="panel-body">
-				<ul class="chat">
-					<li class="left clearfix" data-rno='12'>
-						<div>
-							<div class="header">
-								<strong class="primary-font">작성자</strong>
-								<small class="pull-right text-muted">댓글 작성일</small>
-							</div>
-							<p>내용</p>
+	<div>
+		<div>
+			<strong>댓글</strong>
+		</div>
+		
+		<div>
+			<ul class="chat">
+				<li data-rno='12'>
+					<div>
+						<div class="header">
+							<strong>작성자</strong>
+							<small>댓글 작성일</small>
 						</div>
-					</li>
-				</ul>
-			</div>
-			
+						<p>내용</p>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 
 	<hr />
 	
-	<div class="replies" id="replies">
+	<div class="replies" id="replies" style="width: 100%;">
 		<div>
-		  	<label for="replyer">작성자</label><input type="text" id="replyer" name='replyer' value="">
-		  <br/>
-		  	<label for="reply">내용</label><input type="text" id="reply" name='repl' value="">
-		  	<button id='addReplyBtn' class="btn btn-primary btn-xs pull-right">댓글 달기</button>
+			<p>
+		  		<label for="replyer">작성자</label><input type="text" id="replyer" name='replyer' value="">
+		  		<br/>
+		  		<label for="reply">내용&nbsp;&nbsp;&nbsp;</label><input type="text" id="reply" name='reply' value="">
+		  	</p>
+		  	<button id='addReplyBtn'>댓글 달기</button>
 		</div>
 	</div>
 	
