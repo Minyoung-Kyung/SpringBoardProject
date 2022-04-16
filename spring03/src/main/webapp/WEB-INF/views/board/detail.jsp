@@ -247,8 +247,8 @@ bigPictureWrapper{
 	</tr>
 		</table><br/>
 		<a href="../">리스트</a>
-		<a href="update">수정</a>
-		<a href="delete">삭제</a>
+		<a href="${vn}/update">수정</a>
+		<a href="${vn}/delete">삭제</a>
 	
 	<hr />
 	

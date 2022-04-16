@@ -52,11 +52,11 @@ public class BoardDetailController {
 			return "board.detail";
 		} catch (RuntimeException e) { // 예외 사항에 대한 catch 처리
 			model.addAttribute("msg", e.getMessage());
-			model.addAttribute("url", "../"); // 게시글 목록 화면으로 이동 
+			model.addAttribute("url", "../"); // 게시물 목록으로 이동 
 			return "result";
 		} catch (Exception e) { 
 			model.addAttribute("msg", "상세보기 에러");
-			model.addAttribute("url", "../");
+			model.addAttribute("url", "../"); // 게시물 목록으로 이동
 			return "result";
 		} 
 	}
@@ -68,24 +68,25 @@ public class BoardDetailController {
 		return new ResponseEntity<>(boardService.getAttachList(bno), HttpStatus.OK);
 	}
 	
-	@GetMapping("delete")
-	public String delete(@PathVariable long bno, Model model) {
+	@GetMapping("/{vn}/delete")
+	public String delete(@PathVariable("bno") long bno, @PathVariable("vn") long vn, Model model) {
+		model.addAttribute("vn", vn);
 		return "board.delete";
 	}
 	
-	@PostMapping("delete")
-	public String delete(@ModelAttribute BoardDTO boardDTO, Model model) {
+	@PostMapping("/{vn}/delete")
+	public String delete(@ModelAttribute BoardDTO boardDTO, @PathVariable("vn") long vn, Model model) {
 		log.info(boardDTO.toString());
 		try {
 			List<BoardAttachDTO> attachList = boardService.getAttachList(boardDTO.getBno());
 			
 			if (boardService.deleteBoard(boardDTO) == 1) {
 				deleteFiles(attachList); // uploadFolder 내에 존재하는 섬네일과 원본 파일도 삭제
-				model.addAttribute("msg", boardDTO.getBno() + "번 게시물이 삭제되었습니다.");
-				model.addAttribute("url", "../../1/");
+				model.addAttribute("msg", vn + "번 게시물이 삭제되었습니다.");
+				model.addAttribute("url", "../../../1/"); // 게시물 목록으로 이동
 			} else {
 				model.addAttribute("msg","비밀번호가 틀리거나 오류가 발생했습니다.");
-				model.addAttribute("url", "../../1/");
+				model.addAttribute("url", "../?vn=" + vn); // 게시물 삭제로 이동
 			}
 			return "result";
 		}catch (Exception e) {
@@ -95,21 +96,21 @@ public class BoardDetailController {
 		}
 	}
 	
-	@GetMapping("update")
-	public String update(@PathVariable("pg") long pg, @PathVariable("bno") long bno, Model model) {
+	@GetMapping("/{vn}/update")
+	public String update(@PathVariable("pg") long pg, @PathVariable("bno") long bno, @PathVariable("vn") long vn, Model model) {
 		try {
 			BoardDTO boardDTO = boardService.getDetail(bno);
 			model.addAttribute("boardDTO", boardDTO);
 			return "board.update";
 		} catch (Exception e) {
 			model.addAttribute("msg", "해당하는 게시물이 없거나 시스템 에러입니다.");
-			model.addAttribute("url", "../../1/");
+			model.addAttribute("url", "../../../1/"); // 게시물 목록으로 이동
 			return "result";
 		}
 	}
 	
-	@PostMapping("update")
-	public String updateBoard(@PathVariable("bno") long bno, @ModelAttribute BoardDTO boardDTO,
+	@PostMapping("/{vn}/update")
+	public String updateBoard(@PathVariable("bno") long bno, @PathVariable("vn") long vn, @ModelAttribute BoardDTO boardDTO,
 		Model model) {
 		log.info(boardDTO.toString());
 		try {
@@ -120,12 +121,12 @@ public class BoardDetailController {
 			}
 			
 			if (boardService.updateBoard(boardDTO) == 1) {
-				model.addAttribute("msg", boardDTO.getBno() + "번 게시물이 수정되었습니다.");
-				model.addAttribute("url", "../"); // 수정 성공 후 수정된 내용 보여주기 (detail.jsp로 이동) -> 다음 코드는 목록으로 이동
+				model.addAttribute("msg", vn + "번 게시물이 수정되었습니다.");
 			} else {
 				model.addAttribute("msg","비밀번호가 틀리거나 오류가 발생했습니다.");
-				model.addAttribute("url", "../../1/");
 			}
+
+			model.addAttribute("url", "../?vn=" + vn); // 게시물 상세보기로 이동
 			return "result";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());

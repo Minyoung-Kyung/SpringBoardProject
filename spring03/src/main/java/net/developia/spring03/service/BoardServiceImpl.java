@@ -70,21 +70,26 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public int deleteBoard(BoardDTO boardDTO) throws Exception {
-		attachDAO.deleteAll(boardDTO.getBno());
-		return boardDAO.deleteBoard(boardDTO);
+		int deleteResult = boardDAO.deleteBoard(boardDTO); // 입력한 비밀번호가 일치하면 성공
+		
+		if (deleteResult == 1) {
+			attachDAO.deleteAll(boardDTO.getBno()); // 테이블에 존재하는 해당 게시물의 파일 모두 삭제
+		}
+		
+		return deleteResult;
 	}
 
 	@Transactional
 	@Override
-	public int updateBoard(BoardDTO boardDTO) throws Exception {
-		attachDAO.deleteAll(boardDTO.getBno()); // 해당 게시물의 파일 모두 삭제
-		
+	public int updateBoard(BoardDTO boardDTO) throws Exception {		
 		int modifyResult = boardDAO.updateBoard(boardDTO); // 입력한 비밀번호가 일치하면 성공
 		
 		if (modifyResult == 1 && boardDTO.getAttachList() != null && boardDTO.getAttachList().size() > 0) {
+			attachDAO.deleteAll(boardDTO.getBno()); // 테이블에 존재하는 해당 게시물의 파일 모두 삭제
+			
 			boardDTO.getAttachList().forEach(attach -> {
 				attach.setBno(boardDTO.getBno());
-				attachDAO.attachInsert(attach);
+				attachDAO.attachInsert(attach); // 새로 수정한 파일 업로드
 			});
 		}
 		

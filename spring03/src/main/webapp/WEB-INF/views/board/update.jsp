@@ -254,7 +254,7 @@ $(document).ready(function(e) {
 		<h1 style="text-align: center;">게시물 수정</h1>
 			<tr>
 				<th>번호</th>
-				<td>${dto.bno}<input type="hidden" name="no"  
+				<td>${vn}<input type="hidden" name="no"  
 			required="required" value="${dto.bno}" /></td>
 			</tr>
 			<tr>

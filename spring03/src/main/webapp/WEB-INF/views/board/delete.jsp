@@ -12,7 +12,7 @@
 		<caption>게시물 삭제</caption>
 		<tr>
 		   <th>글번호</th>
-		   <td>${bno}<input type="hidden" name="bno" value='${bno}'/></td>
+		   <td>${vn}<input type="hidden" name="bno" value='${bno}'/></td>
 		</tr>
 		<tr>
 		   <th>비밀번호</th>
