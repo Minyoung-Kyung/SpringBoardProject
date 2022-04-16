@@ -84,9 +84,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String list(@PathVariable long pg, @RequestParam(defaultValue = "") String keyword, Model model) throws Exception {
+	public String list(@PathVariable long pg, @RequestParam(defaultValue = "") String type, @RequestParam(defaultValue = "") String keyword, Model model) throws Exception {
 		try {
-			long recordCount = boardService.getBoardCount(); // 전체 게시글 수
+			long recordCount = boardService.getBoardCount(type, keyword); // 전체 게시글 수
 			long pageCount = recordCount / pageSize; // 총 페이지 수 (쪽 수) 
 			if (recordCount % pageSize != 0) pageCount ++;
 			
@@ -98,7 +98,7 @@ public class BoardController {
 				endPage = pageCount;
 			}
 			
-			List<BoardDTO> list = boardService.getBoardListPage(pg);
+			List<BoardDTO> list = boardService.getBoardListPage(pg, type, keyword);
 			
 			// 비지니스 로직 수행 
 			model.addAttribute("list", list);
@@ -109,6 +109,10 @@ public class BoardController {
 			
 			model.addAttribute("recordCount", recordCount);
 			model.addAttribute("pageSize", pageSize);
+			
+			model.addAttribute("type", type);
+			model.addAttribute("keyword", keyword);
+			
 			return "board.list";
 		} catch (Exception e) {
 			model.addAttribute("msg", "list 출력 에러");

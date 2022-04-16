@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.developia.spring03.dao.BoardDAO">
+	<sql id="criteria">
+		<if test="type == 'title'">
+			WHERE title LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="type == 'content'">
+			WHERE content LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="type == 'name'">
+			WHERE name LIKE '%'||#{keyword}||'%'
+		</if>
+	</sql>
 
 	<insert id="insertBoard" parameterType="BoardDTO">
 		<selectKey resultType="long" keyProperty="bno" order="BEFORE">
@@ -36,6 +47,7 @@
 			    readcount
 			FROM
 			    board
+			<include refid="criteria"></include> 
 			ORDER BY bno DESC) A) B
 		WHERE rnum between #{startNum} AND #{endNum}	
 	</select>
@@ -74,6 +86,7 @@
 	<select id="getBoardCount" resultType="long">
 		SELECT COUNT(*) AS cnt
 		FROM board
+		<include refid="criteria"></include> 
 	</select>
 	
 </mapper>

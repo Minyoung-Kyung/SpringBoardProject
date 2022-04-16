@@ -17,4 +17,11 @@ public class BoardDTO implements Serializable {
 	private String password;
 	
 	private List<BoardAttachDTO> attachList;
+	
+	private String type;
+	private String keyword;
+	
+	public String[] getTypeArr() {
+	   return type == null? new String[] {}: type.split("");
+	}
 }

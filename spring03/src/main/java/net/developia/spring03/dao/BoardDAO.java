@@ -9,7 +9,7 @@ import net.developia.spring03.dto.BoardDTO;
 public interface BoardDAO {
 	void insertBoard(BoardDTO boardDTO) throws Exception;
 	
-	List<BoardDTO> getBoardList() throws Exception;
+	List<BoardDTO> getBoardList(@Param("type") String type,@Param("keyword") String keyword) throws Exception;
 	
 	BoardDTO getDetail(long bno) throws Exception;
 	
@@ -19,7 +19,7 @@ public interface BoardDAO {
 
 	int updateBoard(BoardDTO boardDTO) throws Exception;
 	
-	List<BoardDTO> getBoardListPage(@Param("startNum")long startNum,@Param("endNum") long endNum) throws Exception;
+	List<BoardDTO> getBoardListPage(@Param("startNum")long startNum,@Param("endNum") long endNum,@Param("type") String type,@Param("keyword") String keyword) throws Exception;
 
-	long getBoardCount() throws Exception;
+	long getBoardCount(@Param("type") String type,@Param("keyword") String keyword) throws Exception;
 }

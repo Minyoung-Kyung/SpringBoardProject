@@ -47,8 +47,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDTO> getBoardList() throws Exception {
-		return boardDAO.getBoardList();
+	public List<BoardDTO> getBoardList(String type, String keyword) throws Exception {
+		return boardDAO.getBoardList(type, keyword);
 	}
 	
 	@Override
@@ -97,16 +97,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDTO> getBoardListPage(long pg) throws Exception {
+	public List<BoardDTO> getBoardListPage(long pg, String type, String keyword) throws Exception {
 		long startNum = (pg - 1) * pageSize + 1;
 		long endNum = pg * pageSize;
 		
-		return boardDAO.getBoardListPage(startNum, endNum);
+		return boardDAO.getBoardListPage(startNum, endNum, type, keyword);
 	}
 
 	@Override
-	public long getBoardCount() throws Exception {
-		return boardDAO.getBoardCount();
+	public long getBoardCount(String type, String keyword) throws Exception {
+		return boardDAO.getBoardCount(type, keyword);
 	}
 
 	@Override

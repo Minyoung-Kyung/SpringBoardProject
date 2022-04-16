@@ -7,6 +7,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <style type="text/css">
 body {
@@ -39,13 +43,32 @@ table.type10 td {
   vertical-align: top;
 }
 </style>
-
-<script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var searchForm = $("#searchForm");
+	
+	$('#searchBtn').on("click", function() {
+		if(!searchForm.find("option:selected").val()){
+			alert("검색 종류를 선택하세요");
+			searchForm.find("#keyword").val("");
+			searchForm.submit();
+			return false;
+		}
+		
+		if(!searchForm.find("#keyword").val()){
+			alert("검색 내용을 입력하세요");
+		}
+		
+		e.preventDefault();
+		
+		searchForm.submit();
+	});
+});
 </script>
 </head>
 <body>
 	<table border="1" class="type10">
-	<h1 style="text-align: center;">게시물 리스트</h1>
+	<h1 style="text-align: center;">게시물 목록</h1>
 		<tr>
 			현재 페이지 : ${pg} / 전체 페이지 수 : ${pageCount}
 		</tr>
@@ -75,8 +98,8 @@ table.type10 td {
 				<td><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd" type="date"/></td>
 			</c:if>
 			<td>${dto.readcount}</td>
-		</tr>
 		</c:forEach>
+		</tr>
 	
 		<td colspan="5" style="text-align: center;">
 			<c:if test="${startPage != 1}">
@@ -84,7 +107,7 @@ table.type10 td {
 			</c:if>
 			<c:forEach begin="${startPage}" end="${endPage}" var="p">
 				<c:if test="${p == pg}">${p}</c:if>
-				<c:if test="${p != pg}"><a href="../${p}/">${p}</a></c:if>
+				<c:if test="${p != pg}"><a href="../${p}/?type=${type}&keyword=${keyword}">${p}</a></c:if>
 			</c:forEach>
 			<c:if test="${endPage != pageCount}">
 				<a href="../${endPage+1}/">▶</a>
@@ -94,19 +117,17 @@ table.type10 td {
 	</table><br/>
 	<a href="insert">글쓰기</a>
 	
-	<div class="form-group row justify-content-center">
-		<div class="w100" style="padding-right:10px">
-			<select class="form-control form-control-sm" name="searchType" id="searchType">
-				<option value="title">제목</option>
-
-				<option value="Content">내용</option>
-
-				<option value="reg_id">작성자</option>
-
+	<div class="w100" style="padding-right:10px">
+		<form id="searchForm" action="${contextPath}/board/1/" autocomplete="off">
+			<select id="searchType" name="type"> 
+				<option value="">전체보기</option>
+				<option value="title" <c:if test="${type eq 'title'}">selected</c:if>>제목</option>
+				<option value="content" <c:if test="${type eq 'content'}">selected</c:if>>내용</option>
+				<option value="name" <c:if test="${type eq 'name'}">selected</c:if>>작성자</option>
 			</select>
-			<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
-			<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
-		</div>
+			<input type="text" id="keyword" name="keyword" value="${keyword}"></input>
+			<button id="searchBtn" type="submit">검색</button>
+		</form>
 	</div>
 </body>
 </html>

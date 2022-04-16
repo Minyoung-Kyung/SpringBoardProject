@@ -246,7 +246,7 @@ bigPictureWrapper{
 		<td class="lastTdStyle">${boardDTO.readcount}</td>
 	</tr>
 		</table><br/>
-		<a href="../">리스트</a>
+		<a href="../">전체보기</a>
 		<a href="${vn}/update">수정</a>
 		<a href="${vn}/delete">삭제</a>
 	
