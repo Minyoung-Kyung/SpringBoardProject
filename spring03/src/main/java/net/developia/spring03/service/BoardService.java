@@ -8,8 +8,6 @@ import net.developia.spring03.dto.BoardDTO;
 public interface BoardService {
 	void insertBoard(BoardDTO boardDTO) throws Exception;
 	
-	List<BoardDTO> getBoardList(String type, String keyword) throws Exception;
-	
 	BoardDTO getDetail(long bno) throws Exception;
 
 	int deleteBoard(BoardDTO boardDTO) throws Exception;

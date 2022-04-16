@@ -75,7 +75,7 @@ public class BoardController {
 			
 			boardService.insertBoard(boardDTO);
 			
-			return "redirect:../1/"; // 게시글 목록에서 1쪽으로 이동
+			return "redirect:../1/"; // 게시글 목록으로 이동
 		} catch (Exception e) {
 			model.addAttribute("msg", "입력 에러");
 			model.addAttribute("url", "javascript:history.back();");

@@ -9,8 +9,6 @@ import net.developia.spring03.dto.BoardDTO;
 public interface BoardDAO {
 	void insertBoard(BoardDTO boardDTO) throws Exception;
 	
-	List<BoardDTO> getBoardList(@Param("type") String type,@Param("keyword") String keyword) throws Exception;
-	
 	BoardDTO getDetail(long bno) throws Exception;
 	
 	void updateReadCount(long bno) throws Exception;

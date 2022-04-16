@@ -45,11 +45,6 @@ public class BoardServiceImpl implements BoardService {
 			attachDAO.attachInsert(attach);
 		});
 	}
-
-	@Override
-	public List<BoardDTO> getBoardList(String type, String keyword) throws Exception {
-		return boardDAO.getBoardList(type, keyword);
-	}
 	
 	@Override
 	public BoardDTO getDetail(long bno) throws Exception {

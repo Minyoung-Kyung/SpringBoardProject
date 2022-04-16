@@ -49,14 +49,14 @@ $(document).ready(function() {
 	
 	$('#searchBtn').on("click", function() {
 		if(!searchForm.find("option:selected").val()){
-			alert("검색 종류를 선택하세요");
+			alert("검색 종류를 선택하세요.");
 			searchForm.find("#keyword").val("");
 			searchForm.submit();
 			return false;
 		}
 		
 		if(!searchForm.find("#keyword").val()){
-			alert("검색 내용을 입력하세요");
+			alert("검색 내용을 입력하세요.");
 		}
 		
 		e.preventDefault();
