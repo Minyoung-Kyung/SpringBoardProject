@@ -17,28 +17,6 @@
 body {
   margin: 2% 20% 5% 20%;
 }
-table.type10 {
-  border-collapse: collapse;
-  text-align: left;
-  line-height: 1.5;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-.tdStyle {
-  width: 150px;
-  padding: 10px;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: top;
-  color: #fff;
-  background: #e7708d;
-  margin: 20px 10px;
-}
-.lastTdStyle {
-  width: 350px;
-  padding: 10px;
-  vertical-align: top;
-}
 .uploadResult{
 	width: 100%;
 	background-color: #f8f9fa;
